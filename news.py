@@ -25,23 +25,29 @@ def scrape_page(url):
     title = tree.title.string
     for script in tree(["script","style"]):
         script.extract()
-    paragraphs = tree.find_all('p')
-    #print paragraphs
+    all_p = tree.find_all('p')
+    t0 = None
+    for tag in all_p:
+        if t0 == None:
+            t0 = tag
+        else:
+            t1 = tag.parent
+            if t1 == t0.parent:
+                content = t1
+                break
+            else:
+                t0 = tag
+
+    paragraphs = content.find_all('p')
     filtered_paragraphs = [paragraph.get_text() for paragraph in paragraphs]
-    #print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    #print filtered_paragraphs
     size_paragraphs = [len(para) for para in filtered_paragraphs]
     size_cut = int(sum(size_paragraphs)/len(size_paragraphs))
     texts = [text for text in filtered_paragraphs if len(text) > int(size_cut)]
-    #print "##################"
-    #print texts
     final_text = []
-    for text in texts:#[:-2]:
-        if False: #text[0] == "\n":
+    for text in texts:
+        if False:
             break
-    #    if text[:5] != "Foto:":
         final_text.append(text)
-    #print final_text
     return title, " ".join(final_text)
 
 
