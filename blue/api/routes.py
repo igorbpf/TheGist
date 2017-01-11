@@ -4,7 +4,7 @@ from utils import summarize
 
 mod = Blueprint('api',__name__)
 
-@mod.route('/', methods=['POST'])
+@mod.route('/summary', methods=['POST'])
 def apiSummarize():
     url = request.form['url']
     try:
