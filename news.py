@@ -94,7 +94,7 @@ def summarization(ranked):
     cut = 3
     size = len(ranked)
     if size >= cut:
-        shrink = int(size ** 0.55) #size/cut
+        shrink =  int(size ** 0.55) #int(0.40*size)#size/cut
         most_relevant = ranked[:shrink]
     else:
         most_relevant = ranked
