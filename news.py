@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import networkx as nx
 import numpy as np
 from nltk.corpus import stopwords
-from nltk.stem import RSLPStemmer
+from nltk.stem.snowball import SnowballStemmer
 from nltk import word_tokenize
 from string import punctuation
 from detection import detect_language
@@ -64,15 +64,23 @@ def textrank(document, language):
     non_words = set(non_words)
 
     # Stemmer
-    #stemmer = RSLPStemmer()
+    stemmer = SnowballStemmer(language)
     filtered_sentences = []
 
-    for sentence in sentences:
-        words = word_tokenize(sentence)
-        #words = [stemmer.stem(word.lower()) for word in words if word not in non_words]
-        words = [(word.lower()) for word in words if word not in non_words]
-        sentence = " ".join(words)
-        filtered_sentences.append(sentence)
+    if language != "turkish":
+        for sentence in sentences:
+            words = word_tokenize(sentence)
+            words = [stemmer.stem(word.lower()) for word in words if word not in non_words]
+            #words = [(word.lower()) for word in words if word not in non_words]
+            sentence = " ".join(words)
+            filtered_sentences.append(sentence)
+    else:
+        for sentence in sentences:
+            words = word_tokenize(sentence)
+            #words = [stemmer.stem(word.lower()) for word in words if word not in non_words]
+            words = [(word.lower()) for word in words if word not in non_words]
+            sentence = " ".join(words)
+            filtered_sentences.append(sentence)
 
     normalized = TfidfVectorizer(ngram_range=(1,1)).fit_transform(filtered_sentences)
     similarity_graph = normalized * normalized.T
