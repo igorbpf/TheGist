@@ -3,6 +3,7 @@ import nltk
 import requests
 from bs4 import BeautifulSoup as bs
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
 import networkx as nx
 import numpy as np
 from nltk.corpus import stopwords
@@ -18,37 +19,50 @@ def rss_to_links(rssurl):
     return [link['link'] for link in feed['entries']]
 
 def scrape_page(url):
-    """Input: url of news.
-        Output: Text from the page."""
+    """
+    Input: url
+    Output: title, text, top image and its caption.
+    """
     page = requests.get(url).text
-    tree = bs(page, "html.parser")
-    title = tree.title.string
-    for script in tree(["script","style"]):
-        script.extract()
-    all_p = tree.find_all('p')
-    t0 = None
-    for tag in all_p:
-        if t0 == None:
-            t0 = tag
-        else:
-            t1 = tag.parent
-            if t1 == t0.parent:
-                content = t1
-                break
-            else:
-                t0 = tag
+    tree = bs(page, 'html.parser')
 
-    paragraphs = content.find_all('p')
-    filtered_paragraphs = [paragraph.get_text() for paragraph in paragraphs]
-    size_paragraphs = [len(para) for para in filtered_paragraphs]
-    size_cut = int(sum(size_paragraphs)/len(size_paragraphs))
-    texts = [text for text in filtered_paragraphs if len(text) > int(size_cut)]
-    final_text = []
-    for text in texts:
-        if False:
-            break
-        final_text.append(text)
-    return title, " ".join(final_text)
+    # Remove script and style tags
+    for script in tree(['script','style']):
+        script.extract()
+
+    # Get title
+    title = tree.title.string
+
+    # Get top image if there is any
+    try:
+        content_images = tree.find_all('figure')
+        content_image = content_images[0]
+        top_image = content_image.find_all('img')
+        top_image = re.findall(r'src="\S+"',str(top_image[0]))[0][4:]
+        image_caption = content_image.find_all('figcaption')[0].get_text()
+    except:
+        top_image = None
+        image_caption = None
+
+    # Geta all p tags
+    ps = tree.find_all('p')
+
+    text = []
+    # Get parents of the p tags
+    parents = set([p.parent for p in ps])
+    # Iterate over the parents and try to get the p tags with depth of 1.
+    for parent in parents:
+        pss = [p for p in parent.find_all('p', recursive=False) if len(p.get_text().split()) > 10]
+        text.append(pss)
+    # Get only list with length greater than one.
+    useful = [txt for txt in text if len(txt) > 1]
+    news = []
+    for dummy in useful:
+        news = news + [use.get_text() for use in dummy]
+    # join into a single string
+    plain_text = " ".join(news)
+
+    return title, plain_text, top_image, image_caption
 
 
 def textrank(document, language):
@@ -83,6 +97,11 @@ def textrank(document, language):
             filtered_sentences.append(sentence)
 
     normalized = TfidfVectorizer(ngram_range=(1,1)).fit_transform(filtered_sentences)
+    #rows, columns = normalized.shape
+    #svd = TruncatedSVD(n_components=100, n_iter=10, random_state=42)
+    #normalized = svd.fit_transform(normalized)
+    #print normalized.shape
+    #print type(normalized)
     similarity_graph = normalized * normalized.T
 
     nx_graph = nx.from_scipy_sparse_matrix(similarity_graph)
@@ -109,7 +128,7 @@ def get_summary(url):
     """Input: url
     Output: summary"""
 
-    title, document = scrape_page(url)
+    title, document, _, _ = scrape_page(url)
     language = detect_language(document)
     ranked = textrank(document, language)
     summary = summarization(ranked)
@@ -158,7 +177,7 @@ def get_keywords(url):
     """Input: url
     Output: summary"""
 
-    _, document = scrape_page(url)
+    _, document, _, _ = scrape_page(url)
     language = detect_language(document)
     ranked = wordrank(document, language)
     keywords = keyword_extraction(ranked)
