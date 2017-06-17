@@ -12,6 +12,6 @@ def apiSummarize():
         title, summary = summarize(url)
     except Timeout:
         return make_response(jsonify(error="Too long."), 400)
-    # except ZeroDivision:
-    #     return make_response(jsonify(error="Bad url."), 400)
+    except:
+        return make_response(jsonify(error="Bad url."), 400)
     return make_response(jsonify(title=title, summary=summary), 200)
