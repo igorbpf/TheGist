@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 from celery import Celery
 
-# import os
+import os
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
