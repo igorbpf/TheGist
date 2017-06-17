@@ -14,7 +14,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 CORS(app)
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery = Celery(app.name, broker=app.config['BROKER_URL'])
 celery.conf.update(app.config)
 
 
