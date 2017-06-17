@@ -6,6 +6,8 @@ from celery import Celery
 # import os
 
 app = Flask(__name__)
+app.config.from_object(os.environ['APP_SETTINGS'])
+
 
 # app.config['CELERY_BROKER_URL'] = os.environ['REDIS_URL']
 # app.config['CELERY_RESULT_BACKEND'] = os.environ['REDIS_URL']
