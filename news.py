@@ -23,7 +23,7 @@ def scrape_page(url):
     Input: url
     Output: title, text, top image and its caption.
     """
-    page = requests.get(url).text
+    page = requests.get(url, timeout=2).text
     tree = bs(page, 'html.parser')
 
     # Remove script and style tags

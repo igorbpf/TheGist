@@ -11,7 +11,7 @@ try:
     from nltk import wordpunct_tokenize
     from nltk.corpus import stopwords
 except ImportError:
-    print '[!] You need to install nltk (http://nltk.org/index.html)'
+    print('[!] You need to install nltk (http://nltk.org/index.html)')
 
 
 
@@ -96,4 +96,4 @@ if __name__=='__main__':
 
     language = detect_language(text)
 
-    print language
+    print(language)

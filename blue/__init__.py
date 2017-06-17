@@ -1,7 +1,8 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
 from blue.site.routes import mod
 from blue.api.routes import mod

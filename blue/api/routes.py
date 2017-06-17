@@ -1,17 +1,17 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, make_response
 from utils import summarize
-from flask_cors import CORS, cross_origin
+from requests.exceptions import Timeout
+
 
 mod = Blueprint('api',__name__)
-cors = CORS(mod)
 
 @mod.route('/summary', methods=['POST'])
-@cross_origin()
 def apiSummarize():
     url = request.form['url']
     try:
         title, summary = summarize(url)
+    except Timeout:
+        return make_response(jsonify(error="Too long."), 400)
     except:
-        summary = None
-        title = None
-    return jsonify(title=title, summary=summary)
+        return make_response(jsonify(error="Bad url."), 400)
+    return make_response(jsonify(title=title, summary=summary), 200)
