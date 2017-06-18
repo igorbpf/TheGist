@@ -11,6 +11,7 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk import word_tokenize
 from string import punctuation
 from detection import detect_language
+from newspaper import Article
 
 def rss_to_links(rssurl):
     """Input: url of the rss.
@@ -62,7 +63,14 @@ def scrape_page(url):
     # join into a single string
     plain_text = " ".join(news)
 
-    return title, plain_text, top_image, image_caption
+    if not plain_text or not title:
+        g1 = Article(url=url)
+        g1.download()
+        g1.parse()
+        title = g1.title
+        plain_text = g1.text
+
+    return title, plain_text #, top_image, image_caption
 
 
 def textrank(document, language):
@@ -128,7 +136,7 @@ def get_summary(url):
     """Input: url
     Output: summary"""
 
-    title, document, _, _ = scrape_page(url)
+    title, document = scrape_page(url)
     language = detect_language(document)
     ranked = textrank(document, language)
     summary = summarization(ranked)
@@ -177,7 +185,7 @@ def get_keywords(url):
     """Input: url
     Output: summary"""
 
-    _, document, _, _ = scrape_page(url)
+    _, document  = scrape_page(url)
     language = detect_language(document)
     ranked = wordrank(document, language)
     keywords = keyword_extraction(ranked)
