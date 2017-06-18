@@ -20,7 +20,7 @@ kombu==4.0.2
 lxml==3.8.0
 MarkupSafe==1.0
 networkx==1.11
-newspaper3k==0.2.2
+newspaper
 nltk==3.2.4
 olefile==0.44
 Pillow==4.1.1
