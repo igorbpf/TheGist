@@ -17,11 +17,11 @@ $(function() {
               type: "GET",
               success: function(data, textStatus, xhr) {
                 if (xhr.status === 202){
-                console.log(data);
+                //console.log(data);
 
               } else {
 
-                console.log(typeof data);
+                //console.log(data);
                 $("#image").remove();
 
 
@@ -30,6 +30,7 @@ $(function() {
                 // $('#content').append('<h3 class="title">' + title + '</h3> <br> <br>');
                 // $('html').width(3 * $('#content').width());
                 $('#summary').append('<p class="news">' + summary + '</p>');
+                $('textarea').val('');
                 // $('html').height($('#content').width());
                 // console.log(2 * $('#content').width());
                 $("button").show();
@@ -37,17 +38,20 @@ $(function() {
               }
               },
               error: function(error){
-                console.log(error);
+                //console.log(error);
+                $('textarea').val('');
                 $("#image").remove();
                 $('#summary').append('<p class="error-message">No possible to summarize this text now! Sorry! Try again!</p>');
+                $('textarea').val('');
                 $("button").show();
+                clearInterval(ajaxtime);
               }
             });
            }, 1000);
 
         });
         promised_firstajax.fail(function(error){
-          console.log(error)
+          //console.log(error)
         });
     });
 });
