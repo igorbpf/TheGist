@@ -1,40 +1,53 @@
 <!DOCTYPE HTML>
-<html lang='pt'>
+<html lang="en">
 <head>
-    <title>The Gist</title>
-    <meta charset='UTF-8'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <title>TheGist</title>
+  <meta charset="utf-8">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Work+Sans" rel="stylesheet">
+  <link href="static/style.css" rel="stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+
+
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-5 col-sm-offset-1">
-                <h2>Try Gist</h4>
-                    <br>
-                <form role="form" method='post' action='/'>
-                    <div class='form-group'>
-                        <input type="text" name="url" class="form-control" id="url-box" placeholder="Link to be summarized" style='max-width:300px;' autofocus required>
-                    </div>
-                    <button type="submit" class='btn btn-default'>Gist it</button>
-                </form>
-            <br>
-            {% if status %}
-                <h4> No possible to Gist it. Try again! ;-)</h4>
-            {% endif %}
-            <br>
-                <h4>Currently Gist supports 12 languages: English, Portuguese, Spanish, Italian, French, German, Danish, Finnish, Dutch, Norwegian, Swedish and Turkish</h4>
-        </div>
-        <div class="col-sm-5 col-sm-offset-1">
-            {% if summary %}
-                <h3>{{ title }}</h3>
-                <br>
-                {{ summary }}
-                <br>
-            {% endif %}
-        </div>
+<div class="container">
+  <div class='row'>
+    <div id='top' class=col-md-12>
+      <h1>Automatic Summarization</h1>
+      <br>
+      <h4>Currently Gist support 11 languages: English, Portuguese, Spanish, Italian, German, Danish, Finnish, Dutch, Norwegian, Swedish and Turkish</h4>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div id="form">
+      <form method="POST" action='/'>
+        <div class="form-group">
+        <textarea rows="20" cols="60" placeholder="Text here..." name="text"></textarea>
+        <br>
+        <label>Summary Size: </label>
+        <input type="radio" name="size" value="Small" checked>Small (25%)</input>
+        <input type="radio" name="size" value="Medium">Medium (50%)</input>
+        <input type="radio" name="size" value="Big">Big (75%)</input>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary">Gist it</button>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+<div class="col-md-6">
+  <div id="summary">
+  </div>
 </div>
 </div>
-<br>
+</div>
+  <script src="static/request.js"></script>
 </body>
 </html>

@@ -117,18 +117,26 @@ def textrank(document, language):
     return sorted(((scores[i], i, s) for i,s in enumerate(sentences)),
                   reverse=True)
 
-def summarization(ranked):
+def summarization(ranked, bit=0.25):
+
     cut = 3
     size = len(ranked)
+
     if size >= cut:
-        shrink =  int(size ** 0.55) #int(0.40*size)#size/cut
-        most_relevant = ranked[:shrink]
+        shrink = int(size * bit)
+
+        if shrink == 0:
+            most_relevant = ranked
+        else:
+            most_relevant = ranked[:shrink]
     else:
         most_relevant = ranked
+
     most_relevant.sort(key=lambda x:x[1])
     sentences = []
     for ranks in most_relevant:
         sentences.append(ranks[2])
+
     return " ".join(sentences)
 
 
@@ -141,6 +149,18 @@ def get_summary(url):
     ranked = textrank(document, language)
     summary = summarization(ranked)
     return title, summary.strip(), language
+
+
+def get_summary_text(document, bit):
+    """Input: text
+    Output: summary"""
+
+    language = detect_language(document)
+    ranked = textrank(document, language)
+    summary = summarization(ranked, bit)
+    return summary.strip()
+
+
 
 def wordrank(document, language):
 
