@@ -16,6 +16,9 @@
 	display: block;
 }
 
+button {
+  width: 75%;
+}
 
 /*#image-container {
   padding-left: 10%;
