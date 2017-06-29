@@ -5,14 +5,38 @@
   <meta charset="utf-8">
 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Work+Sans" rel="stylesheet">
   <link href="../../static/style.css" rel="stylesheet">
   <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../../static/formvalidator.js"></script>
   <script src="../../static/request.js"></script>
+  <script src="../../static/formvalidator.js"></script>
 
 </head>
 <body>
 <div class="container">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="#">TheGist</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+
+
   <div class='row'>
     <div id='top' class=col-md-12>
       <h1>Automatic Summarization</h1>
@@ -25,9 +49,9 @@
   <div class="row">
     <div class="col-md-6">
       <div id="form">
-      <form method="POST" action='/'>
+      <form method="POST" action='/' name='textfield'>
         <div class="form-group">
-        <textarea rows="20" cols="60" placeholder="Text here..." name="text"></textarea>
+        <textarea rows="10" cols="60" placeholder="Text here..." name="text"></textarea>
         <br>
         <label>Summary Size: </label>
         <input type="radio" name="size" value="Small" checked>Small (25%)</input>
@@ -50,4 +74,15 @@
 </div>
 
 </body>
+
+<footer class='text-center'>
+  <hr>
+  <p>Made with ❤ by Igor Santos</p>
+  <a target="_blank" href="https://github.com/igorbpf"><i class="fa fa-github glyphicon"></i></a>
+  <a target="_blank" href="https://www.linkedin.com/in/igor-santos-5a53a721/"><i class="fa fa-linkedin glyphicon"></i></a>
+
+
+</footer>
+
+
 </html>
