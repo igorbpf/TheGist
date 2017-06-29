@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, make_response, jsonify
 from utils import summarize_text
+import bleach
 
 mod = Blueprint('site',__name__,template_folder="templates")
 
@@ -12,6 +13,8 @@ def mainPage():
 def apiSummarize():
     size = request.form['size']
     text = request.form['text']
+
+    text = bleach.clean(text)
 
     result = summarize_text.apply_async(args=[text, size])
     return make_response(jsonify(id=result.id), 202)
