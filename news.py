@@ -63,19 +63,25 @@ def scrape_page(url):
     # join into a single string
     plain_text = " ".join(news)
 
-    if not plain_text or not title:
-        g1 = Article(url=url)
-        g1.download()
-        g1.parse()
-        title = g1.title
-        plain_text = g1.text
+    # for globo.com
+    if not plain_text:
+        c = tree.find_all('p', { "class" : "content-text__container" })
+
+        paragraphs = []
+        for i in c:
+            if len(i.get_text().split(' ')) > 15:
+
+                paragraphs.append(i.get_text())
+
+
+        plain_text = " ".join(paragraphs).strip(' ')
+
 
     return title, plain_text #, top_image, image_caption
 
 
 def textrank(document, language):
 
-    #print document
     nltk.data.path.append('./nltk_data/')
     sentence_tokenizer = nltk.data.load("tokenizers/punkt/" + language + ".pickle")
     sentences = sentence_tokenizer.tokenize(document)
