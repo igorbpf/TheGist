@@ -1,8 +1,4 @@
-#!/usr/bin/env python
-#coding:utf-8
-# Author: Alejandro Nolla - z0mbiehunt3r
-# Purpose: Example for detecting language using a stopwords based approach
-# Created: 15/05/13
+# Detect text language
 
 import sys
 

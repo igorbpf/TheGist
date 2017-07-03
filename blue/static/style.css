@@ -74,10 +74,14 @@ body {
   background-color:powderblue;
 }
 
+#size-label {
+  margin-right: 10px;
+}
 
 
 textarea {
   background-color: white;
+  resize: none;
 }
 
 
