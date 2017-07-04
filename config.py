@@ -14,7 +14,7 @@ class StagingConfig(Config):
 
     MAIL_DEFAULT_SENDER = os.environ['MAILGUN_SMTP_LOGIN']
     #MAILGUN_PUBLIC_KEY = os.environ['MAILGUN_PUBLIC_KEY']
-    MAIL_USERNAME = os.environ['MAILGUN_DOMAIN']
+    MAIL_USERNAME = os.environ['MAILGUN_SMTP_LOGIN']
     MAIL_PASSWORD = os.environ['MAILGUN_SMTP_PASSWORD']
     MAIL_PORT = os.environ['MAILGUN_SMTP_PORT']
     MAIL_SERVER = os.environ['MAILGUN_SMTP_SERVER']
