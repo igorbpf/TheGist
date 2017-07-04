@@ -12,13 +12,14 @@ class StagingConfig(Config):
     BROKER_URL = os.environ['REDIS_URL']
     CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
 
-    MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
-    MAILGUN_PUBLIC_KEY = os.environ['MAILGUN_PUBLIC_KEY']
-    MAILGUN_SMTP_LOGIN = os.environ['MAILGUN_SMTP_LOGIN']
-    MAILGUN_SMTP_PASSWORD = os.environ['MAILGUN_SMTP_PASSWORD']
-    MAILGUN_SMTP_PORT = os.environ['MAILGUN_SMTP_PORT']
-    MAILGUN_SMTP_SERVER = os.environ['MAILGUN_SMTP_SERVER']
-
+    MAIL_DEFAULT_SENDER = os.environ['MAILGUN_DOMAIN']
+    #MAILGUN_PUBLIC_KEY = os.environ['MAILGUN_PUBLIC_KEY']
+    MAIL_USERNAME = os.environ['MAILGUN_SMTP_LOGIN']
+    MAIL_PASSWORD = os.environ['MAILGUN_SMTP_PASSWORD']
+    MAIL_PORT = os.environ['MAILGUN_SMTP_PORT']
+    MAIL_SERVER = os.environ['MAILGUN_SMTP_SERVER']
+    MAIL_USE_TLS = True
+    
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
