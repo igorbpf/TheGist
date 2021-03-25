@@ -27,7 +27,7 @@ olefile==0.44
 Pillow==4.1.1
 python-dateutil==2.6.0
 pytz==2017.2
-PyYAML==3.12
+PyYAML==5.4
 redis==2.10.5
 requests==2.18.1
 requests-file==1.4.2
